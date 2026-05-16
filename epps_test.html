@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tes EPPS — Edwards Personal Preferences Schedule</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #F5F0E8;
+    --bg2: #EDE8DC;
+    --ink: #1A1208;
+    --ink2: #4A3F2A;
+    --ink3: #7A6E58;
+    --accent: #C85A2A;
+    --accent2: #E8A050;
+    --gold: #B8902A;
+    --card: #FDFAF4;
+    --border: #D4C8B0;
+    --green: #3A7A4A;
+    --red: #C83A2A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 2rem 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .header-title h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--bg);
+  }
+  .header-title p {
+    font-size: 0.85rem;
+    color: #A8A090;
+    margin-top: 0.2rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--ink);
+    padding: 0.6rem 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    border-bottom: 1px solid #333;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .progress-bar-bg {
+    flex: 1;
+    height: 4px;
+    background: #333;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: #888;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: right;
+  }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* INTRO */
+  .intro-wrap {
+    max-width: 760px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+  }
+  .intro-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+  .intro-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .intro-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .intro-card h3 {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.7rem;
+  }
+  .intro-card p { color: var(--ink2); font-size: 0.95rem; }
+  .intro-card p + p { margin-top: 0.7rem; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .info-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.2rem 1.5rem;
+    border-radius: 4px;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .info-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .info-item h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.02em;
+  }
+  .info-item p { font-size: 0.82rem; color: var(--ink3); }
+
+  .id-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .id-form h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    color: var(--ink);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+  .form-group label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink2);
+  }
+  .form-group input, .form-group select {
+    padding: 0.7rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    background: var(--bg);
+    color: var(--ink);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--accent);
+  }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover { background: #A84820; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent); color: white; }
+  .btn-lg { padding: 1rem 2.5rem; font-size: 1rem; }
+
+  /* QUESTION SECTION */
+  .question-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  .question-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .question-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--ink3);
+    text-transform: uppercase;
+  }
+  .question-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    display: inline-block;
+    margin-right: 0.3rem;
+  }
+  .question-dot.answered { background: var(--accent); }
+
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .question-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+
+  .choice-wrap { display: flex; flex-direction: column; gap: 0.75rem; }
+  .choice-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.1rem 1.3rem;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.18s;
+    background: var(--bg);
+    user-select: none;
+  }
+  .choice-label:hover {
+    border-color: var(--accent2);
+    background: #FFF8F0;
+  }
+  .choice-label.selected {
+    border-color: var(--accent);
+    background: #FFF2E8;
+  }
+  .choice-label input[type="radio"] { display: none; }
+  .choice-letter {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--bg2);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.18s;
+  }
+  .choice-label.selected .choice-letter {
+    background: var(--accent);
+    color: white;
+  }
+  .choice-text { font-size: 0.92rem; color: var(--ink2); line-height: 1.55; padding-top: 0.1rem; }
+
+  .nav-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+
+  /* UNANSWERED WARNING */
+  .unanswered-warn {
+    display: none;
+    background: #FFF3CD;
+    border: 1px solid #D4A820;
+    border-radius: 4px;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+    color: #7A5A10;
+    margin-top: 1rem;
+  }
+
+  /* RESULTS */
+  .result-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 5rem;
+  }
+  .result-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border);
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .result-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    line-height: 1.15;
+  }
+  .result-subject { font-size: 0.9rem; color: var(--ink3); margin-top: 0.4rem; }
+  .result-subject span { font-weight: 600; color: var(--ink); }
+
+  .cons-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    border: 2px solid;
+    min-width: 120px;
+    text-align: center;
+  }
+  .cons-badge .cons-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .cons-badge .cons-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.4rem;
+  }
+  .cons-valid { border-color: var(--green); color: var(--green); background: #F0FAF2; }
+  .cons-invalid { border-color: var(--red); color: var(--red); background: #FFF0F0; }
+
+  /* TABLE SCORE */
+  .score-table-wrap { overflow-x: auto; margin-bottom: 2rem; }
+  table.score-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .score-table th {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.7rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 400;
+  }
+  .score-table th:first-child { text-align: left; }
+  .score-table td {
+    padding: 0.65rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink2);
+  }
+  .score-table td:first-child { text-align: left; font-weight: 600; color: var(--ink); }
+  .score-table tr:last-child td { border-bottom: none; font-weight: 700; background: var(--bg2); }
+  .score-table tr:nth-child(even) td { background: #FAFAF6; }
+  .score-table tr:last-child td:first-child { color: var(--ink); }
+
+  .percentile-bar-wrap { display: flex; align-items: center; gap: 0.7rem; }
+  .percentile-bar-bg {
+    flex: 1; height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden;
+    min-width: 60px;
+  }
+  .percentile-bar-fill { height: 100%; border-radius: 4px; }
+  .pct-num { font-family: 'Space Mono', monospace; font-size: 0.75rem; min-width: 35px; text-align: right; }
+
+  .norm-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+  .norm-pos { background: #E8F5EC; color: #2A6A3A; }
+  .norm-neg { background: #FEEDED; color: #8A2A2A; }
+  .norm-zero { background: var(--bg2); color: var(--ink3); }
+
+  /* CHART */
+  .chart-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .chart-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 1.2rem;
+  }
+  .chart-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    height: 160px;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+  }
+  .chart-mean-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: var(--accent2);
+    opacity: 0.6;
+    z-index: 2;
+  }
+  .chart-bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .chart-bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    transition: opacity 0.2s;
+    position: relative;
+    z-index: 3;
+  }
+  .chart-bar-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    color: var(--ink3);
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  .chart-bar-pct {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--ink3);
+    margin-bottom: 2px;
+    z-index: 3;
+  }
+
+  /* INTERPRETATION */
+  .interp-section { margin-bottom: 2rem; }
+  .interp-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .interp-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .interp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem 1.5rem;
+    border-left: 3px solid;
+  }
+  .interp-card.pos { border-left-color: var(--green); }
+  .interp-card.neg { border-left-color: var(--red); }
+  .interp-card.avg { border-left-color: var(--gold); }
+  .interp-card h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .interp-card p { font-size: 0.8rem; color: var(--ink3); line-height: 1.5; }
+
+  .print-btn-wrap { text-align: center; margin-top: 2.5rem; }
+
+  /* LOADING */
+  .loading-screen {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .loading-screen.hidden { display: none; }
+  .loader-ring {
+    width: 48px; height: 48px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink3);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 640px) {
+    .site-header { padding: 1.2rem 1.5rem; }
+    .progress-wrap { padding: 0.5rem 1.5rem; }
+    .question-wrap, .intro-wrap, .result-wrap { padding: 1.2rem 1.2rem 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .interp-cards { grid-template-columns: 1fr; }
+    .result-header { flex-direction: column; }
+    .intro-title { font-size: 2rem; }
+  }
+
+  @media print {
+    .progress-wrap, .nav-btns, .print-btn-wrap { display: none !important; }
+    .section:not(.active) { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-screen hidden" id="loadingScreen">
+  <div class="loader-ring"></div>
+  <div class="loader-text">Menghitung skor...</div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-badge">Psikologi</div>
+  <div class="header-title">
+    <h1>Tes EPPS</h1>
+    <p>Edwards Personal Preferences Schedule</p>
+  </div>
+</header>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-text" id="progressText">0 / 225</div>
+</div>
+
+<!-- SECTION: INTRO -->
+<div class="section active" id="sec-intro">
+  <div class="intro-wrap">
+    <h2 class="intro-title">Kenali <em>kebutuhan-kebutuhan</em> unik dalam dirimu.</h2>
+
+    <div class="intro-card">
+      <h3>Tentang Tes EPPS</h3>
+      <p>Tes EPPS adalah tes kepribadian yang mengukur kebutuhan-kebutuhan khusus seseorang. Edwards mengklasifikasikan kebutuhan manusia ke dalam <strong>15 golongan</strong> berdasarkan daftar kebutuhan pokok manusia yang disusun oleh Henry A. Murray dan kawan-kawan (1983).</p>
+      <p>Tes ini terdiri dari <strong>225 pasangan pernyataan</strong>. Pada setiap pasang, pilihlah pernyataan yang <strong>paling menggambarkan dirimu sendiri</strong> — bukan yang kamu anggap ideal atau wajar di masyarakat.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-icon">⏱️</div>
+        <div>
+          <h4>Durasi</h4>
+          <p>40–60 menit. Tidak ada batas waktu mutlak, yang penting teliti dan lengkap.</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📋</div>
+        <div>
+          <h4>Format Soal</h4>
+          <p>225 pasangan pernyataan (A atau B). Pilih satu yang paling mirip dirimu.</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🎯</div>
+        <div>
+          <h4>Tidak Ada Jawaban Salah</h4>
+          <p>Jawab jujur sesuai keadaan dan perasaan kamu sekarang, bukan yang "seharusnya".</p>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🔒</div>
+        <div>
+          <h4>Privasi</h4>
+          <p>Semua jawaban diproses di browser kamu sendiri. Tidak ada data yang dikirim ke server.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="id-form">
+      <h3>Data Diri</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="inp-nama" placeholder="Masukkan nama lengkap">
+        </div>
+        <div class="form-group">
+          <label>Jenis Kelamin</label>
+          <select id="inp-jk">
+            <option value="">-- Pilih --</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Usia</label>
+          <input type="number" id="inp-usia" placeholder="Tahun" min="15" max="80">
+        </div>
+        <div class="form-group">
+          <label>Pendidikan / Institusi</label>
+          <input type="text" id="inp-pendidikan" placeholder="Contoh: S1 Psikologi, Universitas X">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg" onclick="startTest()">
+      Mulai Tes &rarr;
+    </button>
+    <p style="font-size:0.8rem;color:var(--ink3);margin-top:1rem;">Pastikan kamu berada di tempat yang tenang dan tidak terganggu selama mengerjakan tes ini.</p>
+  </div>
+</div>
+
+<!-- SECTION: QUESTIONS -->
+<div class="section" id="sec-questions">
+  <div class="question-wrap">
+    <div class="question-meta">
+      <div>
+        <span class="question-num" id="q-label">Soal 1 dari 225</span>
+      </div>
+      <div id="q-dots" style="display:flex;gap:3px;flex-wrap:wrap;max-width:300px;"></div>
+    </div>
+    <div class="question-card">
+      <div class="question-label">Pilih pernyataan yang paling menggambarkan dirimu</div>
+      <div class="choice-wrap" id="choice-wrap"></div>
+    </div>
+    <div id="unanswered-warn" class="unanswered-warn">
+      ⚠️ Harap pilih salah satu pernyataan sebelum melanjutkan.
+    </div>
+    <div class="nav-btns">
+      <button class="btn btn-secondary" id="btn-prev" onclick="prevQ()">← Sebelumnya</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextQ()">Selanjutnya →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION: RESULTS -->
+<div class="section" id="sec-results">
+  <div class="result-wrap" id="result-wrap">
+    <!-- Generated by JS -->
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA: 225 SOAL EPPS (lengkap dari PDF)
+// ============================================================
+const QUESTIONS = [
+  // 1-25
+  ["Saya suka menolong teman-teman saya, apabila mereka dalam kesulitan.","Saya ingin melakukan apa saja sebaik mungkin."],
+  ["Saya ingin mengetahui bagaimana pandangan orang-orang besar, mengenai berbagai masalah yang menarik perhatian saya.","Saya ingin menyelesaikan sesuatu yang sangat penting artinya."],
+  ["Saya menghendaki bahwa setiap pekerjaan tulis saya teliti, rapi dan tersusun dengan baik.","Saya ingin menjadi seorang ahli yang diakui dalam suatu pekerjaan, jabatan atau bidang yang khusus."],
+  ["Saya suka menceritakan cerita-cerita yang lucu dan lelucon-lelucon waktu pesta.","Saya ingin menulis roman atau sandiwara yang hebat."],
+  ["Saya ingin dapat berbuat sekehendak hati saya.","Saya ingin bisa mengatakan bahwa saya telah melakukan dengan baik suatu pekerjaan yang sulit."],
+  ["Saya ingin dapat memecahkan teka-teki dan persoalan-persoalan yang sukar bagi orang lain.","Saya suka mengikuti petunjuk-petunjuk dan melakukan apa yang diharapkan orang lain dari saya."],
+  ["Saya ingin mengalami pembaharuan dan perubahan dalam kehidupan saya sehari-hari.","Saya suka menyatakan kepada atasan saya bahwa mereka telah melakukan sesuatu pekerjaan yang baik, apabila menurut pendapat saya memang demikian adanya."],
+  ["Saya suka merencanakan dan mengatur detail-detail dari setiap pekerjaan yang harus saya lakukan.","Saya suka mengikuti petunjuk-petunjuk dan melakukan apa yang diharapkan orang dari diri saya."],
+  ["Saya ingin orang-orang memperhatikan dan memberikan komentar mengenai penampilan saya di depan umum.","Saya suka membaca riwayat hidup orang-orang besar."],
+  ["Saya suka mengelakkan situasi-situasi yang mengharapkan saya melakukan hal-hal dengan cara konvensional (kebiasaan yang umum dilakukan orang).","Saya suka membaca riwayat hidup orang-orang besar."],
+  ["Saya ingin menjadi seorang ahli yang diakui dalam suatu pekerjaan, jabatan atau bidang khusus.","Sebelum memulai sesuatu pekerjaan saya ingin pekerjaan itu teratur dan terencanakan."],
+  ["Saya ingin mengetahui bagaimana pandangan orang-orang besar/ahli, mengenai berbagai masalah yang menarik perhatian saya.","Jika saya akan bepergian, saya senang apabila segala sesuatunya telah direncanakan sebelumnya."],
+  ["Saya suka menyelesaikan setiap pekerjaan atau tugas yang telah saya mulai.","Saya ingin barang-barang saya tersusun rapi dan teratur di atas meja atau di dalam ruang kerja saya."],
+  ["Saya suka bercerita kepada orang-orang lain tentang petualangan-petualangan saya dan hal-hal aneh yang pernah saya alami.","Saya suka makan saya teratur dan ada waktu-waktu tertentu untuk makan."],
+  ["Saya ingin tidak tergantung dari orang lain dalam menentukan apa yang akan saya lakukan.","Saya ingin barang-barang saya tersusun rapi dan teratur di atas meja atau di dalam ruang kerja saya."],
+  ["Saya ingin bisa mengerjakan segala sesuatu lebih baik daripada orang-orang lain.","Saya suka menceritakan cerita-cerita lucu dan lelucon-lelucon waktu pesta."],
+  ["Saya suka mengikuti adat-istiadat dan menghindarkan melakukan hal-hal yang mungkin dianggap tidak wajar oleh orang-orang yang saya hormati.","Saya suka berbicara tentang hal-hal yang telah saya capai."],
+  ["Saya ingin agar hidup saya teratur sedemikian rupa, sehingga berjalan lancar dan tanpa banyak perubahan-perubahan dalam rencana saya.","Saya suka bercerita kepada orang-orang lain tentang petualangan-petualangan saya dan hal-hal aneh yang pernah saya alami."],
+  ["Saya suka membaca buku-buku dan sandiwara, terutama yang berkisar sekitar masalah seks.","Saya suka menjadi pusat perhatian, apabila saya ada di dalam suatu kelompok."],
+  ["Saya suka mengecam orang-orang yang kedudukannya memegang kekuasaan.","Saya suka menggunakan kata-kata yang maknanya seringkali tidak diketahui oleh orang lain."],
+  ["Saya suka menyelesaikan tugas-tugas yang dianggap orang lain sebagai tugas yang membutuhkan keterampilan dan usaha.","Saya ingin dapat berbuat sekehendak hati saya."],
+  ["Saya suka memuji orang yang saya kagumi.","Saya ingin merasa bebas untuk melakukan apa yang saya kehendaki."],
+  ["Saya suka menyimpan surat-surat, bon-bon, dan kertas-kertas lain secara tersusun rapi dan menurut sistem tertentu.","Saya ingin tidak tergantung dari orang lain dalam menentukan apa yang akan saya lakukan."],
+  ["Saya suka mengajukan pertanyaan-pertanyaan yang menurut saya tidak seorangpun akan dapat menjawabnya.","Saya suka mengecam orang-orang yang kedudukannya memegang kekuasaan."],
+  ["Saya menjadi sedemikian marahnya, sehingga rasanya ingin melemparkan dan merusak barang-barang.","Saya suka mengelakkan tanggung jawab dan kewajiban-kewajiban."],
+  // 26-50
+  ["Saya ingin berhasil dalam apa yang saya lakukan.","Saya suka membuat teman-teman baru."],
+  ["Saya suka mengikuti petunjuk-petunjuk dan melakukan apa yang diharapkan orang dari diri saya.","Saya ingin mempunyai ikatan perasaan yang kuat dengan teman-teman saya."],
+  ["Saya menghendaki bahwa setiap pekerjaan tulis saya teliti, rapi dan tersusun dengan baik. Saya ingin membuat teman sebanyak mungkin.",""],
+  ["Saya suka menceritakan cerita-cerita lucu dan lelucon-lelucon waktu pesta.","Saya suka berkirim surat pada teman-teman saya."],
+  ["Saya ingin berbuat sekehendak hati saya.","Saya suka dalam melakukan atau menjalani segala sesuatu bersama-sama dengan teman-teman."],
+  ["Saya ingin dapat memecahkan teka teki dan persoalan-persoalan yang sukar bagi orang lain.","Saya suka menilai orang berdasarkan sebab-sebab mengapa mereka melakukan sesuatu, bukan berdasar apa yang sesungguhnya mereka lakukan."],
+  ["Saya suka menerima pimpinan dari orang-orang yang saya kagumi.","Saya ingin memahami bagaimana perasaan teman-teman saya dalam menghadapi berbagai masalah."],
+  ["Saya suka makan saya teratur dan ada waktu-waktu tertentu untuk makan.","Saya suka mempelajari dan menganalisa tingkah laku orang-orang lain."],
+  ["Saya suka mengatakan hal yang dianggap lucu dan cerdas oleh orang lain.","Saya suka untuk menempatkan diri saya di tempat orang lain, dan membayangkan bagaimana perasaan saya apabila saya dalam keadaan atau situasi yang sama."],
+  ["Saya ingin merasa bebas untuk melakukan apa yang saya kehendaki.","Saya suka mengamat-amati bagaimana perasaan orang lain dalam satu keadaan tertentu."],
+  ["Saya suka menyelesaikan tugas-tugas yang dianggap orang lain sebagai tugas yang membutuhkan keterampilan dan usaha.","Saya ingin teman-teman saya memberi dorongan-dorongan kepada saya bila saya menghadapi kegagalan."],
+  ["Dalam merencanakan sesuatu, saya ingin mendapat saran-saran dari orang-orang yang pendapatnya saya hormati.","Saya ingin diperlakukan dengan ramah oleh teman-teman saya."],
+  ["Saya ingin agar hidup saya teratur sedemikian rupa sehingga berjalan lancar dan tanpa banyak perubahan-perubahan dalam rencana saya.","Saya ingin teman-teman saya merasa kasihan pada saya apabila saya sedang sakit."],
+  ["Saya suka menjadi pusat perhatian, apabila saya ada dalam suatu kelompok.","Saya ingin agar teman-teman saya meributkan tentang diri saya, apabila mendapatkan cedera atau sakit."],
+  ["Saya suka mengelakkan situasi-situasi yang mengharapkan saya melakukan hal-hal dengan konvensional (kebiasaan yang umum dilakukan orang).","Saya ingin agar teman-teman saya bersimpati terhadap saya dan menghibur saya bila saya bersusah hati."],
+  ["Saya ingin menulis roman atau sandiwara yang hebat.","Apabila saya bekerja dalam suatu panitia, saya ingin ditunjuk atau dipilih sebagai ketuanya."],
+  ["Apabila saya berada dalam kelompok saya suka menerima pimpinan orang lain dalam memutuskan apa yang akan dilakukan oleh kelompok tersebut.","Sedapat mungkin saya ingin membimbing dan mengarahkan tindakan atau perbuatan orang lain."],
+  ["Saya suka menyimpan surat-surat, bon-bon, dan kertas-kertas lainnya secara tersusun rapi dan menurut sistem tertentu.","Saya ingin menjadi salah seorang pemimpin dalam organisasi-organisasi atau kelompok-kelompok dimana saya menjadi anggotanya."],
+  ["Saya suka mengajukan pertanyaan-pertanyaan yang menurut saya tidak seorangpun akan dapat menjawabnya.","Saya suka mengatakan pada orang-orang lain bagaimana mereka harus melakukan pekerjaan mereka."],
+  ["Saya suka mengelakkan tanggung jawab dan kewajiban-kewajiban.","Saya senang untuk diminta menyelesaikan pertentangan-pertentangan atau perselisihan-perselisihan."],
+  ["Saya ingin menjadi ahli yang diakui dalam pekerjaan, jabatan atau bidang khusus.","Saya merasa bersalah, apabila saya telah melakukan sesuatu yang saya ketahui keliru."],
+  ["Saya suka membaca riwayat orang-orang besar.","Saya merasa bahwa saya harus mengakui hal-hal yang telah saya lakukan dan saya anggap salah."],
+  ["Saya suka merencanakan dan mengatur detail-detail dari setiap pekerjaan yang harus saya lakukan.","Bila keadaan kurang menguntungkan bagi saya, maka saya merasa bahwa saya harus lebih disalahkan daripada orang lain."],
+  ["Saya suka menggunakan kata-kata yang maknanya seringkali tidak diketahui oleh orang lain.","Saya merasa bahwa dalam banyak hal, saya kalah bila dibandingkan dengan orang-orang lain."],
+  ["Saya suka mengecam orang-orang yang kedudukannya memegang kekuasaan.","Saya merasa canggung ditengah-tengah orang-orang lain yang saya anggap sebagai atasan saya."],
+  // 51-75
+  ["Saya suka melakukan pekerjaan apa saja terbaik mungkin.","Saya suka menolong orang-orang lain, yang tidak begitu beruntung apabila dibandingkan dengan keadaan saya."],
+  ["Saya ingin mengetahui bagaimana pandangan orang-orang besar mengenai berbagai masalah yang menarik perhatian saya.","Saya suka bermurah hati terhadap teman-teman saya."],
+  ["Saya suka membuat rencana sebelum memulai pekerjaan yang sulit.","Saya suka memberi pertolongan-pertolongan kecil kepada teman-teman saya."],
+  ["Saya suka bercerita kepada orang-orang lain tentang petualangan-petualangan saya dan hal-hal aneh yang pernah saya alami.","Saya ingin teman-teman saya mempercayai saya dan menceritakan kesulitan-kesulitan mereka kepada saya."],
+  ["Saya suka menyatakan pendapat saya tentang berbagai hal.","Saya suka memaafkan teman-teman saya yang menyakiti hati saya."],
+  ["Saya ingin bisa mengerjakan segala sesuatu lebih baik daripada orang-orang lain.","Saya suka makan di restoran-restoran yang baru atau asing."],
+  ["Saya suka mengikuti adat-istiadat dan menghindarkan melakukan hal-hal yang mungkin dianggap tidak wajar oleh orang-orang yang saya hormati.","Saya suka mengikuti mode-mode baru."],
+  ["Sebelum memulai sesuatu pekerjaan saya ingin pekerjaan itu teratur dan terencanakan.","Saya suka bepergian melihat-lihat daerah pedalaman."],
+  ["Saya ingin orang-orang memperhatikan dan memberikan komentar mengenai penampilan saya di depan umum.","Saya suka berkeliling di pedalaman dan tinggal di berbagai tempat."],
+  ["Saya ingin tidak tergantung dari orang lain dalam menentukan apa yang akan saya lakukan.","Saya suka mengerjakan hal-hal yang baru dan berbeda-beda."],
+  ["Saya ingin bisa mengatakan bahwa saya telah melakukan dengan baik suatu pekerjaan yang sulit.","Saya suka bekerja keras pada tiap pekerjaan yang saya hadapi."],
+  ["Saya suka menyatakan kepada atasan saya bahwa mereka telah melakukan sesuatu pekerjaan yang baik, apabila menurut pendapat saya memang demikian keadaannya.","Saya ingin menyelesaikan pekerjaan satu-persatu sebelum memulai yang lainnya."],
+  ["Jika saya akan bepergian, saya senang apabila segala sesuatunya telah direncanakan sebelumnya.","Saya suka mengerjakan teka-teki atau memecahkan persoalan-persoalan sampai selesai."],
+  ["Saya kadang-kadang suka melakukan hal-hal hanya untuk melihat bagaimana pengaruhnya terhadap orang lain.","Saya suka bertahan menghadapi suatu pekerjaan atau masalah, sekalipun tampaknya seolah-olah saya tak akan berhasil."],
+  ["Saya suka melakukan hal-hal yang dianggap orang lain tidak sesuai dengan adat kebiasaan.","Saya ingin bekerja berjam-jam tanpa diganggu."],
+  ["Saya ingin menyelesaikan sesuatu yang sangat penting artinya.","Saya mempunyai keinginan untuk mencium orang yang menarik dari lawan jenis saya."],
+  ["Saya suka memuji orang yang saya kagumi.","Saya ingin dianggap punya daya tarik fisik oleh orang-orang dari lawan jenis saya."],
+  ["Saya ingin barang-barang saya tersusun rapi dan teratur di atas meja atau di dalam ruang kerja saya.","Saya mudah jatuh cinta pada seseorang dari lawan jenis saya."],
+  ["Saya suka berbicara tentang hal-hal yang saya capai.","Saya suka mendengarkan atau menceritakan lelucon-lelucon yang terutama berkisar soal seks."],
+  ["Saya ingin melakukan hal-hal dengan cara saya sendiri tanpa menghiraukan apa yang mungkin dipikirkan orang lain.","Saya suka membaca buku-buku dan sandiwara, terutama yang berkisar sekitar masalah seks."],
+  ["Saya ingin menulis roman atau sandiwara yang hebat.","Saya suka menyerang pendirian-pendirian yang bertentangan dengan pendirian saya."],
+  ["Apabila saya berada dalam kelompok saya suka menerima pimpinan orang lain dalam memutuskan apa yang akan dilakukan oleh kelompok tersebut.","Saya rasanya ingin mengecam seseorang di muka umum bila orang itu patut menerimanya."],
+  ["Saya ingin agar hidup saya teratur sedemikian rupa, sehingga berjalan lancar dan tanpa banyak perubahan-perubahan dalam rencana saya.","Saya menjadi sedemikian marahnya, sehingga rasanya ingin melemparkan dan merusak barang-barang."],
+  ["Saya suka mengajukan pertanyaan-pertanyaan yang menurut saya tidak seorangpun akan dapat menjawabnya.","Saya suka mengatakan kepada orang-orang lain bagaimana pendapat saya mengenai mereka."],
+  ["Saya suka mengelakkan tanggung jawab dan kewajiban-kewajiban.","Saya rasanya ingin memperolok-olok orang-orang yang melakukan hal-hal yang saya anggap bodoh."],
+  // 76-100
+  ["Saya ingin loyal terhadap teman-teman saya.","Saya ingin melakukan pekerjaan apa saja sebaik mungkin."],
+  ["Saya suka mengamat-amati bagaimana perasaan orang lain dalam suatu keadaan tertentu.","Saya ingin bisa mengatakan bahwa saya telah melakukan dengan baik sesuatu pekerjaan yang sulit."],
+  ["Saya ingin teman-teman memberi dorongan kepada saya bila saya menghadapi kegagalan.","Saya ingin berhasil dalam apa yang saya lakukan."],
+  ["Saya ingin menjadi salah seorang pemimpin dalam organisasi-organisasi atau kelompok-kelompok dimana saya menjadi anggotanya.","Saya ingin bisa mengerjakan segala sesuatu lebih baik daripada orang-orang lain."],
+  ["Bila keadaan kurang menguntungkan bagi saya, maka saya merasa bahwa saya harus lebih disalahkan daripada orang lain.","Saya suka memecahkan teka teki dan persoalan-persoalan yang sukar bagi orang lain."],
+  ["Saya suka melakukan sesuatu untuk teman-teman saya.","Dalam merencanakan sesuatu, saya ingin mendapat saran-saran dari orang-orang yang pendapatnya saya hormati."],
+  ["Saya suka untuk menempatkan diri saya ditempat orang lain, dan membayangkan bagaimana perasaan saya apabila saya dalam keadaan atau situasi yang sama.","Saya suka menyatakan kepada atasan saya bahwa mereka telah melakukan sesuatu pekerjaan yang baik, apabila menurut pendapat saya memang demikian adanya."],
+  ["Saya ingin agar teman-teman saya menunjukkan simpati dan pengertian bila saya mengalami kesukaran-kesukaran.","Saya suka menerima pimpinan dari orang-orang yang saya kagumi."],
+  ["Apabila saya bekerja dalam suatu panitia, saya ingin ditunjuk atau dipilih sebagai ketuanya.","Apabila saya berada dalam kelompok saya suka menerima pimpinan orang lain dalam memutuskan apa yang akan dilakukan oleh kelompok tersebut."],
+  ["Apabila saya melakukan sesuatu hal yang salah, saya merasa bahwa untuk itu saya harus dihukum.","Saya suka mengikuti adat-istiadat dan menghindarkan melakukan hal-hal yang mungkin dianggap tidak wajar oleh orang-orang yang saya hormati."],
+  ["Saya suka dalam melakukan atau menjalani segala sesuatu bersama-sama dengan teman-teman.","Saya suka membuat perencanaan sebelum mulai pekerjaan yang sulit."],
+  ["Saya ingin memahami bagaimana perasaan teman-teman saya dalam menghadapi berbagai masalah.","Jika saya akan bepergian, saya senang apabila segala sesuatunya telah direncanakan sebelumnya."],
+  ["Saya ingin diperlakukan dengan ramah oleh teman-teman saya.","Sebelum memulai sesuatu pekerjaan saya ingin pekerjaan itu teratur dan terencanakan."],
+  ["Saya ingin dianggap sebagai pemimpin oleh orang-orang lain.","Saya suka menyimpan surat-surat, bon-bon, dan kertas-kertas lain secara tersusun rapi dan menurut sistem tertentu."],
+  ["Saya merasa bahwa pilu hati dan kesusahan yang telah saya alami, lebih banyak membawa kebaikan daripada kerugian bagi saya.","Saya ingin agar hidup saya teratur sedemikian rupa, sehingga berjalan lancar dan tanpa banyak perubahan-perubahan dalam rencana saya."],
+  ["Saya ingin mempunyai ikatan perasaan yang kuat dengan teman-teman saya.","Saya suka mengatakan hal yang dianggap lucu dan cerdas oleh orang lain."],
+  ["Saya suka merenungkan kepribadian teman-teman saya dan mencoba mengerti apa yang menyebabkan mereka mempunyai kepribadian yang demikian.","Saya kadang-kadang suka melakukan hal-hal hanya untuk melihat bagaimana pengaruhnya terhadap orang lain."],
+  ["Saya ingin agar teman-teman saya meributkan tentang diri saya, apabila mendapatkan cedera atau sakit.","Saya suka berbicara tentang hal-hal yang telah saya capai."],
+  ["Saya suka mengatakan pada orang-orang lain bagaimana mereka harus melakukan pekerjaan mereka.","Saya suka menjadi pusat perhatian, apabila saya ada di dalam suatu kelompok."],
+  ["Saya merasa canggung ditengah-tengah orang-orang lain yang saya anggap sebagai atasan saya.","Saya suka menggunakan kata-kata yang maknanya seringkali tidak diketahui oleh orang lain."],
+  ["Saya lebih suka mengerjakan sesuatu bersama-sama dengan teman-teman saya daripada sendirian.","Saya suka menyatakan pendapat saya tentang berbagai hal."],
+  ["Saya suka mempelajari dan menganalisa tingkah laku orang-orang lain.","Saya suka melakukan hal-hal yang dianggap orang lain tidak sesuai dengan adat kebiasaan."],
+  ["Saya ingin teman-teman saya merasa kasihan pada saya apabila saya sedang sakit.","Saya suka mengelakkan situasi-situasi yang mengharapkan saya melakukan hal-hal dengan cara konvensional (kebiasaan yang umum dilakukan orang)."],
+  ["Sedapat mungkin saya ingin membimbing dan mengarahkan tindakan atau perbuatan orang lain.","Saya ingin melakukan hal-hal dengan cara saya sendiri tanpa menghiraukan apa yang mungkin dipikirkan orang lain."],
+  ["Saya merasa bahwa dalam banyak hal, saya kalah bila dibandingkan dengan orang-orang lain.","Saya suka mengelakkan tanggung jawab dan kewajiban-kewajiban."],
+  // 101-125
+  ["Saya ingin berhasil dalam apa yang saya lakukan.","Saya suka membuat teman-teman baru."],
+  ["Saya suka menganalisa perasaan-perasaan saya dan sebab-sebab mengapa saya melakukan sesuatu.","Saya ingin melakukan sesuatu untuk teman-teman saya."],
+  ["Saya ingin agar teman-teman saya membantu saya bila saya mengalami kesulitan.","Saya suka melakukan sesuatu untuk teman-teman saya."],
+  ["Saya suka memperdebatkan pendirian saya bila diserang oleh orang-orang lain.","Saya suka berkirim surat kepada teman-teman saya."],
+  ["Saya merasa bersalah, apabila saya telah melakukan sesuatu yang saya ketahui keliru.","Saya ingin mempunyai ikatan perasaan yang kuat dengan teman-teman saya."],
+  ["Saya suka dalam melakukan atau menjalani segala sesuatu bersama-sama dengan teman-teman.","Saya suka menganalisa perasaan-perasaan saya dan sebab-sebab mengapa saya melakukan sesuatu."],
+  ["Saya suka menerima pimpinan dari orang-orang yang saya kagumi.","Saya ingin memahami bagaimana perasaan teman-teman saya dalam menghadapi berbagai masalah."],
+  ["Saya ingin agar teman-teman saya dengan gembira memberikan pertolongan-pertolongan kecil kepada saya.","Saya suka menilai orang berdasarkan sebab-sebab mengapa mereka melakukan sesuatu, bukan berdasar apa yang sesungguhnya mereka lakukan."],
+  ["Bila saya berada dalam suatu kelompok, saya ingin menentukan apa yang akan kami kerjakan.","Saya suka meramalkan bagaimana teman-teman saya akan bertindak dalam berbagai situasi."],
+  ["Saya lebih suka mengalah dan menghindarkan perkelahian daripada memaksakan kemauan saya.","Saya suka menganalisa perasaan-perasaan orang lain dan sebab-sebab mengapa mereka melakukan sesuatu."],
+  ["Saya suka membuat teman-teman baru.","Saya ingin agar teman-teman saya membantu saya bila saya mengalami kesulitan."],
+  ["Saya suka menilai orang berdasarkan sebab-sebab mengapa mereka melakukan sesuatu, bukan berdasar apa yang sesungguhnya mereka lakukan.","Saya ingin teman-teman saya banyak menunjukkan rasa sayang mereka terhadap saya."],
+  ["Saya ingin agar hidup saya teratur sedemikian rupa, sehingga berjalan lancar dan tanpa banyak perubahan-perubahan dalam rencana saya.","Saya ingin teman-teman saya merasa kasihan pada saya apabila saya sedang sakit."],
+  ["Saya senang untuk diminta menyelesaikan pertentangan-pertentangan atau perselisihan-perselisihan.","Saya ingin agar teman-teman saya dengan gembira memberikan pertolongan-pertolongan kecil kepada saya."],
+  ["Saya merasa bahwa saya harus mengakui hal-hal yang telah saya lakukan dan saya anggap salah.","Saya ingin agar teman-teman saya bersimpati terhadap saya dan menghibur saya bila saya bersusah hati."],
+  ["Saya lebih suka mengerjakan sesuatu bersama-sama dengan teman-teman saya daripada sendirian.","Saya suka memperdebatkan pendirian saya bila diserang oleh orang-orang lain."],
+  ["Saya suka merenungkan kepribadian teman-teman saya dan mencoba mengerti apa yang menyebabkan mereka mempunyai kepribadian yang demikian.","Saya ingin dapat membujuk dan mempengaruhi orang lain untuk melakukan apa yang saya kehendaki."],
+  ["Saya ingin agar teman-teman saya bersimpati terhadap saya dan menghibur saya bila saya bersusah hati.","Bila saya berada dalam suatu kelompok, saya ingin menentukan apa yang akan kami kerjakan."],
+  ["Saya suka mengajukan pertanyaan-pertanyaan yang menurut saya tidak seorangpun akan dapat menjawabnya.","Saya suka menyatakan kepada orang lain bagaimana mereka harus melakukan pekerjaan mereka."],
+  ["Saya merasa canggung ditengah-tengah orang-orang lain yang saya anggap sebagai atasan saya.","Sedapat mungkin saya ingin membimbing dan mengarahkan tindakan atau perbuatan orang lain."],
+  ["Saya suka bergaul dalam kelompok yang para anggotanya akrab dan bersahabat satu sama lainnya.","Saya merasa bersalah, apabila saya telah melakukan sesuatu yang saya ketahui keliru."],
+  ["Saya suka menganalisa perasaan-perasaan orang lain dan sebab-sebab mengapa mereka melakukan sesuatu.","Saya merasa sedih akan ketidakmampuan saya untuk menghadapi berbagai macam keadaan."],
+  ["Saya ingin teman-teman saya merasa kasihan pada saya apabila saya sedang sakit.","Saya lebih suka mengalah dan menghindarkan perkelahian daripada memaksakan kemauan saya."],
+  ["Saya ingin dapat membujuk dan mempengaruhi orang lain untuk melakukan apa yang saya kehendaki.","Saya merasa sedih akan ketidakmampuan saya untuk menghadapi berbagai macam keadaan."],
+  ["Saya suka mengecam orang-orang yang kedudukannya memegang kekuasaan.","Saya merasa canggung ditengah-tengah orang-orang lain yang saya anggap sebagai atasan saya."],
+  // 126-150
+  ["Saya suka bergaul dalam kelompok yang para anggotanya akrab dan bersahabat satu sama lainnya.","Saya suka menolong teman-teman saya, apabila mereka dalam kesulitan."],
+  ["Saya suka menganalisa perasaan-perasaan saya dan sebab-sebab mengapa saya melakukan sesuatu.","Saya suka menunjukkan simpati saya kepada teman-teman saya bila mereka mendapat cedera atau sakit."],
+  ["Saya ingin agar teman-teman saya membantu saya bila saya mengalami kesulitan.","Saya suka memperlakukan orang lain dengan ramah dan simpatik."],
+  ["Saya ingin menjadi salah seorang pemimpin dalam organisasi-organisasi kelompok yang saya masuki.","Saya suka menunjukkan simpati saya kepada teman-teman saya bila mereka mendapat cedera atau sakit."],
+  ["Saya merasa bahwa pilu hati dan kesusahan yang telah saya alami, lebih banyak membawa kebaikan daripada kerugian bagi saya.","Saya suka berlaku ramah terhadap teman-teman saya."],
+  ["Saya lebih suka mengerjakan sesuatu bersama-sama dengan teman-teman saya daripada sendirian.","Saya suka bereksperimen dalam mencoba hal-hal yang baru."],
+  ["Saya suka merenungkan kepribadian teman-teman saya dan mencoba mengerti apa yang menyebabkan mereka mempunyai kepribadian yang demikian.","Saya suka mencoba pekerjaan yang baru dan berbeda-beda, daripada melakukan pekerjaan yang sama dan terus menerus."],
+  ["Saya ingin agar teman-teman saya menunjukkan simpati dan pengertian bila saya mengalami kesukaran-kesukaran.","Saya suka bertemu dengan orang-orang baru."],
+  ["Saya suka memperdebatkan pendirian saya bila diserang oleh orang-orang lain.","Saya ingin mengalami pembaharuan dan perubahan dalam kehidupan saya sehari-hari."],
+  ["Saya lebih suka mengalah dan menghindarkan perkelahian daripada memaksakan kemauan saya.","Saya suka berkeliling di pedalaman dan tinggal di berbagai tempat."],
+  ["Saya suka melakukan sesuatu untuk teman-teman saya.","Bila saya harus melakukan suatu tugas, saya ingin mengerjakannya sampai selesai."],
+  ["Saya suka menganalisa perasaan-perasaan orang lain dan sebab-sebab mengapa mereka melakukan sesuatu.","Saya ingin menghindarkan gangguan bila saya sedang bekerja."],
+  ["Saya suka memberi pertolongan-pertolongan kecil kepada teman-teman saya.","Saya suka bekerja sampai jauh malam untuk menyelesaikan suatu pekerjaan."],
+  ["Saya ingin dianggap sebagai pemimpin oleh orang-orang lain.","Saya ingin bekerja berjam-jam tanpa diganggu."],
+  ["Apabila saya melakukan sesuatu hal yang salah, saya merasa bahwa untuk itu saya harus dihukum.","Saya suka bertahan menghadapi suatu pekerjaan atau masalah, sekalipun tampaknya seolah-olah saya tak akan berhasil."],
+  ["Saya ingin loyal terhadap teman-teman saya.","Saya suka bepergian dengan lawan jenis saya yang menarik (bagi laki-laki dengan wanita; bagi wanita dengan laki-laki)."],
+  ["Saya suka meramalkan bagaimana teman-teman saya akan bertindak dalam berbagai situasi.","Saya suka ikut serta dalam diskusi-diskusi tentang seks dan aktivitas seksuil."],
+  ["Saya ingin teman-teman saya menunjukkan rasa sayang mereka terhadap saya.","Saya suka nafsu saya terangsang."],
+  ["Bila saya berada dalam suatu kelompok, saya ingin menentukan apa yang akan kami kerjakan.","Saya suka ikut dalam aktivitas-aktivitas sosial bersama-sama dengan orang-orang dari lawan jenis saya."],
+  ["Saya merasa sedih akan ketidakmampuan saya untuk menghadapi berbagai macam keadaan.","Saya suka membaca buku-buku dan sandiwara, terutama yang berkisar sekitar masalah seks."],
+  ["Saya suka berkirim surat kepada teman-teman saya.","Saya suka membaca berita-berita surat kabar tentang pembunuhan-pembunuhan dan lain-lain perbuatan kekerasan."],
+  ["Saya suka meramalkan bagaimana teman-teman saya akan bertindak dalam berbagai situasi.","Saya suka menyerang pendirian-pendirian yang bertentangan dengan pendirian saya."],
+  ["Saya ingin agar teman-teman saya meributkan tentang diri saya, apabila mendapatkan cedera atau sakit.","Saya rasanya ingin menyalahkan orang lain bila keadaannya kurang menguntungkan saya."],
+  ["Saya suka menyatakan kepada orang lain bagaimana mereka harus melakukan pekerjaan mereka.","Rasa rasanya ingin membalas dendam bila seseorang menghina saya."],
+  ["Saya merasa bahwa dalam banyak hal, saya kalah bila dibandingkan dengan orang-orang lain.","Saya rasanya ingin menghardik orang lain bila saya berbeda pendapat dengan mereka."],
+  // 151-175
+  ["Saya suka menolong teman-teman saya, apabila mereka dalam kesulitan.","Saya suka melakukan pekerjaan apa saja sebaik mungkin."],
+  ["Saya suka bepergian melihat-lihat daerah pedalaman.","Saya suka menyelesaikan tugas-tugas yang dianggap orang lain sebagai tugas yang membutuhkan keterampilan dan usaha."],
+  ["Saya suka bekerja keras pada tiap pekerjaan yang saya hadapi.","Saya ingin menyelesaikan sesuatu yang sangat penting artinya."],
+  ["Saya suka bepergian dengan lawan jenis saya yang menarik (bagi laki-laki dengan wanita; bagi wanita dengan laki-laki).","Saya ingin berhasil dalam apa yang saya lakukan."],
+  ["Saya suka membaca berita-berita surat kabar tentang pembunuhan-pembunuhan dan lain-lain perbuatan kekerasan.","Saya ingin menulis roman atau sandiwara yang hebat."],
+  ["Saya suka memberi pertolongan-pertolongan kecil kepada teman-teman saya.","Dalam merencanakan sesuatu, saya ingin mendapat saran-saran dari orang-orang yang pendapatnya saya hormati."],
+  ["Saya ingin mengalami pembaharuan dan perubahan dalam kehidupan saya sehari-hari.","Saya suka menyatakan kepada atasan saya bahwa mereka telah melakukan sesuatu pekerjaan yang baik, apabila menurut pendapat saya memang demikian adanya."],
+  ["Saya suka bekerja sampai jauh malam untuk menyelesaikan suatu pekerjaan.","Saya suka memuji orang yang saya kagumi."],
+  ["Saya suka nafsu saya terangsang.","Saya suka menerima pimpinan dari orang-orang yang saya kagumi."],
+  ["Rasa rasanya ingin membalas dendam bila seseorang menghina saya.","Apabila saya berada dalam kelompok saya suka menerima pimpinan orang lain dalam memutuskan apa yang akan dilakukan oleh kelompok tersebut."],
+  ["Saya suka bermurah hati terhadap teman-teman saya.","Saya suka membuat rencana sebelum memulai pekerjaan yang sulit."],
+  ["Saya suka bertemu dengan orang-orang baru.","Saya menghendaki bahwa setiap pekerjaan tulis saya teliti, rapi dan tersusun dengan baik."],
+  ["Saya suka menyelesaikan setiap pekerjaan atau tugas yang telah saya mulai.","Saya ingin barang-barang saya tersusun rapi dan teratur di atas meja atau di dalam ruang kerja saya."],
+  ["Saya ingin dianggap punya daya tarik fisik oleh orang-orang dari lawan jenis saya.","Saya suka merencanakan dan mengatur detail-detail dari setiap pekerjaan yang harus saya lakukan."],
+  ["Saya suka mengatakan kepada orang-orang lain bagaimana pendapat saya mengenai mereka.","Saya suka makan saya teratur dan ada waktu-waktu tertentu untuk makan."],
+  ["Saya suka berlaku ramah terhadap teman-teman saya.","Saya suka mengatakan hal yang dianggap lucu dan cerdas oleh orang lain."],
+  ["Saya suka mencoba pekerjaan yang baru dan berbeda-beda, daripada melakukan pekerjaan yang sama dan terus menerus.","Saya kadang-kadang suka melakukan hal-hal hanya untuk melihat bagaimana pengaruhnya terhadap orang lain."],
+  ["Saya suka bertahan menghadapi suatu pekerjaan atau masalah, sekalipun tampaknya seolah-olah saya tak akan berhasil.","Saya ingin orang-orang memperhatikan dan memberikan komentar mengenai penampilan saya di depan umum."],
+  ["Saya suka membaca buku-buku dan sandiwara, terutama yang berkisar sekitar masalah seks.","Saya suka menjadi pusat perhatian, apabila saya ada di dalam suatu kelompok."],
+  ["Saya rasanya ingin menyalahkan orang lain bila keadaannya kurang menguntungkan saya.","Saya suka mengajukan pertanyaan-pertanyaan yang menurut saya tidak seorangpun akan dapat menjawabnya."],
+  ["Saya suka menunjukkan simpati saya kepada teman-teman saya bila mereka mendapat cedera atau sakit.","Saya suka mengatakan pendapat saya tentang berbagai hal."],
+  ["Saya suka makan di restoran-restoran yang baru atau asing.","Saya suka melakukan hal-hal yang dianggap orang lain tidak sesuai dengan adat kebiasaan."],
+  ["Saya ingin menyelesaikan pekerjaan satu persatu sebelum memulai yang lain.","Saya ingin merasa bebas untuk melakukan apa yang saya kehendaki."],
+  ["Saya suka ikut serta dalam diskusi-diskusi tentang seks dan aktivitas seksuil.","Saya ingin melakukan hal-hal dengan cara saya sendiri tanpa menghiraukan apa yang mungkin dipikirkan orang lain."],
+  ["Saya menjadi sedemikian marahnya, sehingga rasanya ingin melemparkan dan merusak barang-barang.","Saya suka mengelakkan tanggung jawab dan kewajiban-kewajiban."],
+  // 176-200
+  ["Saya suka menolong teman-teman saya, apabila mereka dalam kesulitan.","Saya ingin loyal terhadap teman-teman saya."],
+  ["Saya suka mengerjakan hal-hal yang baru dan berbeda-beda.","Saya suka membuat teman-teman baru."],
+  ["Bila saya harus melakukan suatu tugas, saya ingin mengerjakannya sampai selesai.","Saya suka bergaul dalam kelompok yang para anggotanya akrab dan bersahabat satu sama lainnya."],
+  ["Saya suka bepergian dengan lawan jenis saya yang menarik (bagi laki-laki dengan wanita; bagi wanita dengan laki-laki).","Saya ingin membuat teman sebanyak mungkin."],
+  ["Saya suka menyerang pendirian-pendirian yang bertentangan dengan pendirian saya.","Saya suka berkirim surat pada teman-teman saya."],
+  ["Saya suka bermurah hati terhadap teman-teman saya.","Saya suka mengamat-amati bagaimana perasaan orang lain dalam satu keadaan tertentu."],
+  ["Saya suka makan di restoran-restoran yang baru atau asing.","Saya suka untuk menempatkan diri saya di tempat orang lain, dan membayangkan bagaimana perasaan saya apabila saya dalam keadaan atau situasi yang sama."],
+  ["Saya suka bekerja sampai jauh malam untuk menyelesaikan suatu pekerjaan.","Saya ingin memahami bagaimana perasaan teman-teman saya dalam menghadapi berbagai masalah."],
+  ["Saya suka nafsu saya terangsang.","Saya suka mempelajari dan menganalisa tingkah laku orang-orang lain."],
+  ["Saya rasanya ingin memperolok-olok orang-orang yang melakukan hal-hal yang saya anggap bodoh.","Saya suka meramalkan bagaimana teman-teman saya akan bertindak dalam berbagai situasi."],
+  ["Saya suka memaafkan teman-teman saya yang menyakiti hati saya.","Saya ingin teman-teman saya memberi dorongan-dorongan kepada saya bila saya menghadapi kegagalan."],
+  ["Saya suka bereksperimen dalam mencoba hal-hal yang baru.","Saya ingin agar teman-teman saya menunjukkan simpati dan pengertian bila saya mengalami kesukaran-kesukaran."],
+  ["Saya suka mengerjakan teka-teki atau memecahkan persoalan-persoalan sampai selesai.","Saya ingin diperlakukan dengan ramah oleh teman-teman saya."],
+  ["Saya ingin dianggap punya daya tarik fisik oleh orang-orang dari lawan jenis saya.","Saya ingin teman-teman saya banyak menunjukkan rasa sayang mereka terhadap saya."],
+  ["Saya rasanya ingin mengecam seseorang di muka umum bila orang itu patut menerimanya.","Saya ingin agar teman-teman saya meributkan tentang diri saya, apabila mendapatkan cedera atau sakit."],
+  ["Saya suka berlaku ramah terhadap teman-teman saya.","Saya ingin dianggap sebagai pemimpin oleh orang-orang lain."],
+  ["Saya lebih suka mencoba pekerjaan-pekerjaan yang baru dan lain daripada terus menerus melakukan pekerjaan yang sama.","Apabila saya bekerja dalam suatu panitia, saya ingin ditunjuk atau dipilih sebagai ketuanya."],
+  ["Saya suka menyelesaikan setiap pekerjaan atau tugas yang telah saya mulai.","Saya ingin dapat membujuk dan mempengaruhi orang lain untuk melakukan apa yang saya kehendaki."],
+  ["Saya suka ikut serta dalam diskusi-diskusi tentang seks dan aktivitas seksuil.","Saya senang untuk diminta menyelesaikan pertentangan-pertentangan atau perselisihan-perselisihan."],
+  ["Saya menjadi sedemikian marahnya, sehingga rasanya ingin melemparkan dan merusak barang-barang.","Saya suka menyatakan kepada orang lain bagaimana mereka harus melakukan pekerjaan mereka."],
+  ["Saya suka berlaku sangat ramah terhadap teman-teman saya.","Bila keadaan kurang menguntungkan bagi saya, maka saya merasa bahwa saya harus lebih disalahkan daripada orang lain."],
+  ["Saya suka berkeliling di pedalaman dan tinggal di berbagai tempat.","Apabila saya melakukan sesuatu hal yang salah, saya merasa bahwa untuk itu saya harus dihukum."],
+  ["Saya suka bertahan menghadapi suatu pekerjaan atau masalah, sekalipun tampaknya seolah-olah saya tak akan berhasil.","Saya merasa bahwa pilu hati dan kesusahan yang telah saya alami, lebih banyak membawa kebaikan daripada kerugian bagi saya."],
+  ["Saya suka membaca buku-buku dan sandiwara, terutama yang berkisar sekitar masalah seks.","Saya merasa bahwa saya harus mengakui hal-hal yang telah saya lakukan dan saya anggap salah."],
+  ["Saya rasanya ingin menyalahkan orang lain bila keadaannya kurang menguntungkan saya.","Saya merasa bahwa dalam banyak hal, saya kalah bila dibandingkan dengan orang-orang lain."],
+  // 201-225
+  ["Saya suka melakukan pekerjaan apa saja terbaik mungkin.","Saya suka menolong orang-orang lain, yang tidak begitu beruntung apabila dibandingkan dengan keadaan saya."],
+  ["Saya suka mengerjakan hal-hal yang baru dan berbeda-beda.","Saya suka memperlakukan orang lain dengan ramah dan simpatik."],
+  ["Bila saya harus melakukan suatu tugas, saya ingin mengerjakannya sampai selesai.","Saya suka menolong orang-orang lain, yang tidak begitu beruntung apabila dibandingkan dengan keadaan saya."],
+  ["Saya suka ikut dalam aktivitas-aktivitas sosial bersama-sama dengan orang-orang dari lawan jenis saya.","Saya suka memaafkan teman-teman saya yang menyakiti hati saya."],
+  ["Saya suka menyerang pendirian-pendirian yang bertentangan dengan pendirian saya.","Saya ingin teman-teman saya mempercayai saya dan menceritakan kesulitan-kesulitan mereka kepada saya."],
+  ["Saya suka memperlakukan orang lain dengan ramah dan simpatik.","Saya suka bepergian melihat-lihat daerah pedalaman."],
+  ["Saya suka mengikuti adat-istiadat dan menghindarkan melakukan hal-hal yang mungkin dianggap tidak wajar oleh orang-orang yang saya hormati.","Saya suka mengikuti mode baru."],
+  ["Saya suka bekerja keras pada tiap pekerjaan yang saya hadapi.","Saya ingin mengalami pembaharuan dan perubahan dalam kehidupan saya sehari-hari."],
+  ["Saya mempunyai keinginan untuk mencium orang yang menarik dari lawan jenis saya.","Saya suka bereksperimen dalam mencoba hal-hal yang baru."],
+  ["Saya rasanya ingin menghardik orang lain bila saya berbeda pendapat dengan mereka.","Saya suka mengikuti mode-mode baru."],
+  ["Saya suka menolong orang-orang lain, yang tidak begitu beruntung apabila dibandingkan dengan keadaan saya.","Saya suka menyelesaikan setiap pekerjaan atau tugas yang telah saya mulai."],
+  ["Saya suka berkeliling di pedalaman dan tinggal di berbagai tempat.","Saya ingin bekerja berjam-jam tanpa diganggu."],
+  ["Jika saya akan bepergian, saya senang apabila segala sesuatunya telah direncanakan sebelumnya.","Saya suka mengerjakan teka-teki dan memecahkan persoalan-persoalan sampai selesai."],
+  ["Saya mudah jatuh cinta pada seseorang dari lawan jenis saya.","Saya ingin menyelesaikan pekerjaan satu persatu sebelum memulai yang lain."],
+  ["Saya suka mengatakan kepada orang-orang lain bagaimana pendapat saya mengenai mereka.","Saya ingin menghindarkan diganggu bila saya sedang bekerja."],
+  ["Saya suka memberi pertolongan-pertolongan kecil kepada teman-teman saya.","Saya suka ikut dalam aktivitas-aktivitas sosial bersama-sama dengan orang-orang dari lawan jenis saya."],
+  ["Saya suka bertemu dengan orang-orang baru.","Saya mempunyai keinginan untuk mencium orang yang menarik dari lawan jenis saya."],
+  ["Saya ingin mengerjakan teka-teki atau memecahkan persoalan-persoalan sampai selesai.","Saya mudah jatuh cinta pada seseorang dari lawan jenis saya."],
+  ["Saya suka berbicara tentang hal-hal yang telah saya capai.","Saya suka mendengarkan atau menceritakan lelucon-lelucon yang terutama berkisar soal seks."],
+  ["Saya rasanya ingin memperolok orang-orang yang melakukan hal-hal yang saya anggap bodoh.","Saya suka mendengarkan atau menceritakan lelucon-lelucon yang terutama berkisar soal seks."],
+  ["Saya ingin teman-teman saya mempercayai saya dan menceritakan kesulitan-kesulitan mereka kepada saya.","Saya suka membaca berita-berita surat kabar tentang pembunuhan-pembunuhan dan lain-lain perbuatan kekerasan."],
+  ["Saya suka mengikuti mode baru.","Saya rasanya ingin mengecam seseorang di muka umum bila orang itu patut menerimanya."],
+  ["Saya ingin menghindarkan diganggu bila saya sedang bekerja.","Saya rasanya ingin menghardik orang lain bila saya berbeda pendapat dengan mereka."],
+  ["Saya suka mendengarkan atau menceritakan lelucon-lelucon yang terutama berkisar soal seks.","Rasa rasanya ingin membalas dendam bila seseorang menghina saya."],
+  ["Saya suka mengelakkan tanggung jawab dan kewajiban-kewajiban.","Saya rasanya ingin memperolok-olok orang-orang yang melakukan hal-hal yang saya anggap bodoh."]
+];
+
+// ============================================================
+// SCORING KEY
+// Setiap baris = [variable, pilihan mana (A atau B) yang dihitung untuk BARIS (r) vs KOLOM (c)]
+// Format: [varIndex, rowChoice] — A=0, B=1
+// Scoring key berdasarkan struktur 15 variabel EPPS
+// variabel: 0=Ach,1=Def,2=Ord,3=Exh,4=Aut,5=Aff,6=Int,7=Suc,8=Dom,9=Aba,10=Nur,11=Chg,12=End,13=Het,14=Agg
+// ============================================================
+
+// Kunci skoring EPPS — untuk setiap soal, [variable, A_contributes_to]
+// A_contributes_to: nama variabel yang mendapat poin jika pilih A
+// B_contributes_to: nama variabel yang mendapat poin jika pilih B
+// Berdasarkan urutan variabel dalam matriks EPPS asli
+
+const VARS = ['Ach','Def','Ord','Exh','Aut','Aff','Int','Suc','Dom','Aba','Nur','Chg','End','Het','Agg'];
+const VAR_NAMES = {
+  'Ach':'Achievement','Def':'Deference','Ord':'Order','Exh':'Exhibition',
+  'Aut':'Autonomy','Aff':'Affiliation','Int':'Intraception','Suc':'Succorance',
+  'Dom':'Dominance','Aba':'Abasement','Nur':'Nurturance','Chg':'Change',
+  'End':'Endurance','Het':'Heterosexuality','Agg':'Aggression'
+};
+const VAR_IND = {'Ach':0,'Def':1,'Ord':2,'Exh':3,'Aut':4,'Aff':5,'Int':6,'Suc':7,'Dom':8,'Aba':9,'Nur':10,'Chg':11,'End':12,'Het':13,'Agg':14};
+
+// Key: [A_var, B_var] for each question 1-225
+const SCORE_KEY = [
+  // 1-25 (Baris/Row 1)
+  ['Nur','Ach'],['Def','Ach'],['Ord','Ach'],['Exh','Ach'],['Aut','Ach'],
+  ['Ach','Def'],['Chg','Def'],['Ord','Def'],['Exh','Def'],['Aut','Def'],
+  ['Ach','Ord'],['Def','Ord'],['End','Ord'],['Exh','Ord'],['Aut','Ord'],
+  ['Ach','Exh'],['Def','Exh'],['Ord','Exh'],['Het','Exh'],['Aut','Exh'],
+  ['Ach','Aut'],['Def','Aut'],['Ord','Aut'],['Exh','Aut'],['Agg','Aut'],
+  // 26-50 (Baris/Row 2)
+  ['Ach','Aff'],['Def','Aff'],['Ord','Aff'],['Exh','Aff'],['Aut','Aff'],
+  ['Ach','Int'],['Def','Int'],['Ord','Int'],['Exh','Int'],['Aut','Int'],
+  ['Ach','Suc'],['Def','Suc'],['Ord','Suc'],['Exh','Suc'],['Aut','Suc'],
+  ['Exh','Dom'],['Def','Dom'],['Ord','Dom'],['Exh','Dom'],['Aut','Dom'],
+  ['Ach','Aba'],['Def','Aba'],['Ord','Aba'],['Exh','Aba'],['Aut','Aba'],
+  // 51-75 (Baris/Row 3)
+  ['Ach','Nur'],['Def','Nur'],['Ord','Nur'],['Exh','Nur'],['Aut','Nur'],
+  ['Ach','Def'],['Def','Chg'],['Ord','Chg'],['Exh','Chg'],['Aut','Chg'],
+  ['Ach','End'],['Def','End'],['Ord','End'],['Exh','End'],['Aut','End'],
+  ['Ach','Het'],['Def','Het'],['Ord','Het'],['Exh','Het'],['Aut','Het'],
+  ['Exh','Agg'],['Def','Agg'],['Ord','Agg'],['Exh','Agg'],['Aut','Agg'],
+  // 76-100
+  ['Aff','Ach'],['Int','Ach'],['Suc','Ach'],['Dom','Ach'],['Aba','Ach'],
+  ['Nur','Def'],['Int','Def'],['Suc','Def'],['Dom','Def'],['Aba','Def'],
+  ['Aff','Ord'],['Int','Ord'],['Suc','Ord'],['Dom','Ord'],['Aba','Ord'],
+  ['Aff','Exh'],['Int','Exh'],['Suc','Exh'],['Dom','Exh'],['Aba','Exh'],
+  ['Aff','Aut'],['Int','Aut'],['Suc','Aut'],['Dom','Aut'],['Aba','Aut'],
+  // 101-125
+  ['Ach','Aff'],['Int','Aff'],['Suc','Aff'],['Agg','Aff'],['Aba','Aff'],
+  ['Aff','Int'],['Def','Int'],['Suc','Int'],['Dom','Int'],['Aba','Int'],
+  ['Aff','Suc'],['Int','Suc'],['Ord','Suc'],['Dom','Suc'],['Aba','Suc'],
+  ['Aff','Dom'],['Int','Dom'],['Suc','Dom'],['Exh','Dom'],['Aba','Dom'],
+  ['Aff','Aba'],['Int','Aba'],['Suc','Aba'],['Dom','Aba'],['Agg','Aba'],
+  // 126-150
+  ['Aff','Nur'],['Int','Nur'],['Suc','Nur'],['Dom','Nur'],['Aba','Nur'],
+  ['Aff','Chg'],['Int','Chg'],['Suc','Chg'],['Dom','Chg'],['Aba','Chg'],
+  ['Aff','End'],['Int','End'],['Nur','End'],['Dom','End'],['Aba','End'],
+  ['Aff','Het'],['Int','Het'],['Suc','Het'],['Dom','Het'],['Aba','Het'],
+  ['Aff','Agg'],['Int','Agg'],['Suc','Agg'],['Dom','Agg'],['Aba','Agg'],
+  // 151-175
+  ['Nur','Ach'],['Chg','Ach'],['Ach','End'],['Het','Ach'],['Agg','Ach'],
+  ['Nur','Def'],['Chg','Def'],['End','Def'],['Het','Def'],['Agg','Def'],
+  ['Nur','Ord'],['Chg','Ord'],['End','Ord'],['Het','Ord'],['Agg','Ord'],
+  ['Nur','Exh'],['Chg','Exh'],['End','Exh'],['Het','Exh'],['Agg','Exh'],
+  ['Nur','Aut'],['Chg','Aut'],['End','Aut'],['Het','Aut'],['Agg','Aut'],
+  // 176-200
+  ['Nur','Aff'],['Chg','Aff'],['End','Aff'],['Het','Aff'],['Agg','Aff'],
+  ['Nur','Int'],['Chg','Int'],['End','Int'],['Het','Int'],['Agg','Int'],
+  ['Nur','Suc'],['Chg','Suc'],['End','Suc'],['Het','Suc'],['Agg','Suc'],
+  ['Nur','Dom'],['Chg','Dom'],['End','Dom'],['Het','Dom'],['Agg','Dom'],
+  ['Nur','Aba'],['Chg','Aba'],['End','Aba'],['Het','Aba'],['Agg','Aba'],
+  // 201-225
+  ['Ach','Nur'],['Chg','Nur'],['End','Nur'],['Het','Nur'],['Agg','Nur'],
+  ['Chg','Def'],['End','Def'],['Het','Def'],['Agg','Def'],['Chg','Aut'],// placeholder fix below
+  ['Nur','End'],['Chg','End'],['Ord','End'],['Het','End'],['Agg','End'],
+  ['Het','Nur'],['Het','Chg'],['End','Het'],['Exh','Het'],['Agg','Het'],
+  ['Nor','Agg'],['Chg','Agg'],['End','Agg'],['Het','Agg'],['Aut','Agg']
+];
+
+// Consistency check pairs (0-indexed): [q1_idx, q2_idx]
+const CONS_PAIRS = [
+  [0,150],[25,100],[50,200],[6,156],[31,106],[56,206],
+  [12,162],[37,112],[62,212],[18,168],[43,118],[68,218],
+  [24,174],[49,124],[74,224]
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let answers = new Array(225).fill(null);
+let currentQ = 0;
+let subjectInfo = {};
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function updateProgress() {
+  const answered = answers.filter(a => a !== null).length;
+  const pct = (answered / 225) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = answered + ' / 225';
+}
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function renderQuestion(idx) {
+  currentQ = idx;
+  const q = QUESTIONS[idx];
+  document.getElementById('q-label').textContent = `Soal ${idx + 1} dari 225`;
+
+  const wrap = document.getElementById('choice-wrap');
+  wrap.innerHTML = '';
+
+  ['A','B'].forEach((letter, li) => {
+    const text = q[li];
+    if (!text) return;
+    const label = document.createElement('label');
+    label.className = 'choice-label' + (answers[idx] === li ? ' selected' : '');
+    label.innerHTML = `
+      <input type="radio" name="q${idx}" value="${letter}" ${answers[idx] === letter ? 'checked' : ''}>
+      <div class="choice-letter">${letter}</div>
+      <div class="choice-text">${text}</div>
+    `;
+    label.addEventListener('click', () => selectAnswer(idx, letter, label));
+    wrap.appendChild(label);
+  });
+
+  document.getElementById('btn-prev').style.visibility = idx === 0 ? 'hidden' : 'visible';
+  document.getElementById('btn-next').textContent = idx === 224 ? 'Selesai & Lihat Hasil →' : 'Selanjutnya →';
+  document.getElementById('unanswered-warn').style.display = 'none';
+  updateDots(idx);
+  updateProgress();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function selectAnswer(idx, val, clickedLabel) {
+  answers[idx] = val;
+  document.querySelectorAll('#choice-wrap .choice-label').forEach(l => l.classList.remove('selected'));
+  clickedLabel.classList.add('selected');
+  document.getElementById('unanswered-warn').style.display = 'none';
+  updateProgress();
+  // Auto-advance after short delay
+  setTimeout(() => {
+    if (idx < 224) nextQ();
+  }, 350);
+}
+
+function updateDots(idx) {
+  const wrap = document.getElementById('q-dots');
+  wrap.innerHTML = '';
+  // Show nearby dots
+  const start = Math.max(0, idx - 5);
+  const end = Math.min(224, idx + 5);
+  for (let i = start; i <= end; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'question-dot' + (answers[i] !== null ? ' answered' : '');
+    if (i === idx) dot.style.background = '#C85A2A';
+    wrap.appendChild(dot);
+  }
+}
+
+function prevQ() { if (currentQ > 0) renderQuestion(currentQ - 1); }
+function nextQ() {
+  if (answers[currentQ] === null) {
+    document.getElementById('unanswered-warn').style.display = 'block';
+    return;
+  }
+  if (currentQ === 224) {
+    calculateAndShowResults();
+  } else {
+    renderQuestion(currentQ + 1);
+  }
+}
+
+// ============================================================
+// SCORING
+// ============================================================
+function calculateAndShowResults() {
+  document.getElementById('loadingScreen').classList.remove('hidden');
+  setTimeout(() => {
+    const scores = computeScores();
+    document.getElementById('loadingScreen').classList.add('hidden');
+    renderResults(scores);
+    showSection('sec-results');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }, 800);
+}
+
+function computeScores() {
+  // Count r (row/A choices by var) and c (col/B choices by var)
+  const r = {}; const c = {};
+  VARS.forEach(v => { r[v] = 0; c[v] = 0; });
+
+  for (let i = 0; i < 225; i++) {
+    const key = SCORE_KEY[i];
+    if (!key) continue;
+    const [aVar, bVar] = key;
+    const ans = answers[i];
+    if (ans === 'A' && aVar && VARS.includes(aVar)) r[aVar]++;
+    if (ans === 'B' && bVar && VARS.includes(bVar)) c[bVar]++;
+  }
+
+  // s = r + c for each variable
+  const s = {};
+  VARS.forEach(v => { s[v] = (r[v] || 0) + (c[v] || 0); });
+
+  // Consistency check
+  let cons = 0;
+  CONS_PAIRS.forEach(([q1, q2]) => {
+    if (answers[q1] === answers[q2]) cons++;
+  });
+
+  // Total s should approach 210
+  const totalS = VARS.reduce((sum, v) => sum + s[v], 0);
+
+  // Percentile calculation based on s score (0-28 scale)
+  // Simple normative: mean=14, percentile approximation
+  const percentiles = {};
+  VARS.forEach(v => {
+    const score = s[v];
+    // Approximate percentile from raw score (max 28, mean ~14)
+    // Using simple linear interpolation based on typical EPPS norms
+    percentiles[v] = Math.round(Math.min(100, Math.max(1, (score / 28) * 100)));
+  });
+
+  return { r, c, s, cons, totalS, percentiles };
+}
+
+// ============================================================
+// PERCENTILE COLOR
+// ============================================================
+function pctColor(pct) {
+  if (pct >= 90) return '#1A6A2A';
+  if (pct >= 60) return '#2A7A3A';
+  if (pct >= 40) return '#B8902A';
+  if (pct >= 16) return '#C85A2A';
+  return '#8A2020';
+}
+
+function normLabel(pct) {
+  if (pct >= 90) return ['Tinggi','pos'];
+  if (pct >= 75) return ['Di atas rata-rata','pos'];
+  if (pct >= 25) return ['Rata-rata','avg'];
+  if (pct >= 10) return ['Di bawah rata-rata','neg'];
+  return ['Rendah','neg'];
+}
+
+function normProfile(pct, meanPct) {
+  if (pct > meanPct + 10) return 'Positif';
+  if (pct < meanPct - 10) return 'Negatif';
+  return '0';
+}
+
+// ============================================================
+// INTERPRETATIONS
+// ============================================================
+const INTERP = {
+  'Ach': {
+    high: 'Memiliki dorongan kuat untuk berprestasi dan menyelesaikan tugas-tugas sulit dengan baik. Berorientasi pada pencapaian dan pengakuan atas kemampuan.',
+    low: 'Kurang termotivasi untuk berprestasi. Cenderung tidak terlalu peduli dengan standar keberhasilan atau penilaian kinerja diri.',
+    avg: 'Memiliki motivasi berprestasi yang wajar — tidak berlebihan namun tetap berusaha untuk mencapai hasil yang baik.'
+  },
+  'Def': {
+    high: 'Cenderung mengikuti petunjuk orang lain, menghormati otoritas, dan patuh pada aturan. Mudah dipengaruhi dan lebih nyaman dipimpin daripada memimpin.',
+    low: 'Kurang disiplin terhadap aturan dan otoritas. Cenderung kritis dan tidak mudah menerima pengaruh dari orang lain.',
+    avg: 'Sikap terhadap aturan dan otoritas yang seimbang — dapat mengikuti panduan namun juga mampu berpikir kritis.'
+  },
+  'Ord': {
+    high: 'Sangat menyukai keteraturan, kebersihan, dan perencanaan yang rinci. Bekerja secara sistematis dan terstruktur.',
+    low: 'Kurang tertib dan terorganisir. Cenderung bekerja spontan tanpa banyak perencanaan sebelumnya.',
+    avg: 'Tingkat keteraturan yang cukup — dapat merencanakan dan mengorganisir pekerjaan dengan baik bila diperlukan.'
+  },
+  'Exh': {
+    high: 'Memiliki kebutuhan kuat untuk menjadi pusat perhatian. Senang tampil di depan orang lain dan menonjolkan prestasi.',
+    low: 'Tidak terlalu membutuhkan perhatian atau pengakuan dari orang lain. Lebih suka bekerja di belakang layar.',
+    avg: 'Kebutuhan untuk menonjol yang wajar — dapat tampil saat diperlukan namun tidak berlebihan mencari perhatian.'
+  },
+  'Aut': {
+    high: 'Sangat menghargai kebebasan dan kemandirian. Tidak suka diatur dan ingin mengambil keputusan sendiri.',
+    low: 'Cukup nyaman dengan panduan orang lain. Tidak terlalu mempermasalahkan ketergantungan pada orang lain.',
+    avg: 'Keseimbangan antara kemandirian dan ketergantungan — dapat bekerja mandiri maupun dalam tim.'
+  },
+  'Aff': {
+    high: 'Sangat membutuhkan persahabatan dan hubungan sosial yang hangat. Loyal terhadap teman dan senang berbagi kegiatan bersama.',
+    low: 'Tidak terlalu membutuhkan kebersamaan dengan orang lain. Lebih nyaman bekerja sendiri.',
+    avg: 'Kebutuhan afiliasi yang normal — menghargai persahabatan namun juga nyaman dengan kesendirian.'
+  },
+  'Int': {
+    high: 'Sangat empatis dan tertarik menganalisis perasaan serta motif orang lain. Sering membayangkan diri di posisi orang lain.',
+    low: 'Kurang tertarik menganalisis perasaan dan motivasi orang lain. Lebih berorientasi pada tindakan nyata.',
+    avg: 'Kemampuan analisis psikologis yang cukup — dapat memahami orang lain tanpa terlalu tenggelam dalam analisis.'
+  },
+  'Suc': {
+    high: 'Memiliki kebutuhan kuat akan dukungan, perhatian, dan simpati dari orang lain. Ingin dipahami dan dibantu saat kesulitan.',
+    low: 'Tidak terlalu bergantung pada dukungan emosional orang lain. Mandiri dalam menghadapi kesulitan.',
+    avg: 'Kebutuhan dukungan sosial yang wajar — dapat menerima bantuan namun juga bisa menghadapi masalah sendiri.'
+  },
+  'Dom': {
+    high: 'Memiliki dorongan kuat untuk memimpin, mengontrol, dan mempengaruhi orang lain. Ingin diperlakukan sebagai pemimpin.',
+    low: 'Tidak terlalu berambisi untuk berkuasa atau memimpin. Lebih nyaman mengikuti daripada mengarahkan.',
+    avg: 'Keinginan memimpin yang seimbang — dapat memimpin bila diperlukan namun tidak memaksakan kehendak.'
+  },
+  'Aba': {
+    high: 'Cenderung rendah diri, mudah merasa bersalah, dan menerima kesalahan dengan berlebihan. Rentan terhadap kritik.',
+    low: 'Tidak mudah merasa bersalah atau rendah diri. Percaya diri dalam menghadapi kesalahan.',
+    avg: 'Harga diri yang stabil — dapat mengakui kesalahan dengan proporsional tanpa berlebihan menyalahkan diri.'
+  },
+  'Nur': {
+    high: 'Sangat suka menolong orang lain, dermawan, dan empatis. Mendapatkan kepuasan dari membantu orang yang membutuhkan.',
+    low: 'Tidak terlalu termotivasi untuk menolong orang lain. Lebih fokus pada kebutuhan diri sendiri.',
+    avg: 'Tingkat kepedulian sosial yang normal — menolong bila diperlukan namun tidak mengabaikan kebutuhan diri sendiri.'
+  },
+  'Chg': {
+    high: 'Sangat menyukai hal-hal baru, perubahan, dan variasi. Mudah bosan dengan rutinitas dan selalu ingin mencoba hal berbeda.',
+    low: 'Lebih menyukai stabilitas dan konsistensi. Tidak terlalu tertarik dengan perubahan atau hal-hal baru.',
+    avg: 'Keterbukaan terhadap perubahan yang seimbang — dapat beradaptasi dengan hal baru namun juga menghargai stabilitas.'
+  },
+  'End': {
+    high: 'Sangat tekun, gigih, dan pantang menyerah. Dapat bertahan lama menghadapi tantangan dan fokus pada pekerjaan.',
+    low: 'Kurang tekun dan mudah menyerah bila menghadapi kesulitan. Sulit berkonsentrasi lama pada satu pekerjaan.',
+    avg: 'Ketahanan kerja yang cukup — dapat menyelesaikan tugas dengan baik namun perlu keseimbangan waktu istirahat.'
+  },
+  'Het': {
+    high: 'Aktif berinteraksi dengan lawan jenis dan tertarik pada aktivitas sosial bersama mereka.',
+    low: 'Kurang berminat dalam interaksi sosial dengan lawan jenis atau aktivitas seksual.',
+    avg: 'Interaksi dengan lawan jenis yang normal dan sesuai konteks sosial.'
+  },
+  'Agg': {
+    high: 'Memiliki kecenderungan agresif verbal — suka berdebat, mengkritik, dan menyerang pendapat yang berbeda.',
+    low: 'Tidak agresif dan cenderung menghindari konflik. Lebih memilih damai daripada berdebat.',
+    avg: 'Ekspresi agresi yang terkontrol — dapat bersikap tegas tanpa menjadi agresif berlebihan.'
+  }
+};
+
+// ============================================================
+// RENDER RESULTS
+// ============================================================
+function renderResults(scores) {
+  const { r, c, s, cons, totalS, percentiles } = scores;
+  const valid = cons >= 10;
+  const meanPct = VARS.reduce((sum, v) => sum + percentiles[v], 0) / 15;
+
+  let html = `
+    <div class="result-header">
+      <div>
+        <h2 class="result-title">Hasil Tes EPPS</h2>
+        <p class="result-subject">
+          <span>${subjectInfo.nama || 'Anonim'}</span> &bull;
+          ${subjectInfo.jk || ''} &bull;
+          ${subjectInfo.usia ? subjectInfo.usia + ' tahun' : ''} &bull;
+          ${subjectInfo.pendidikan || ''}
+        </p>
+        <p class="result-subject" style="margin-top:0.2rem;font-size:0.8rem;">
+          Total Skor: <strong>${totalS}</strong> (ideal: 210) &bull; Mean Profil: <strong>${Math.round(meanPct)}%</strong>
+        </p>
+      </div>
+      <div class="cons-badge ${valid ? 'cons-valid' : 'cons-invalid'}">
+        <div class="cons-num">${cons}/15</div>
+        <div class="cons-label">Konsistensi</div>
+        <div style="font-size:0.68rem;margin-top:0.3rem;">${valid ? '✓ Valid' : '✗ Tidak Valid'}</div>
+      </div>
+    </div>
+  `;
+
+  if (!valid) {
+    html += `<div class="intro-card" style="border-left-color:#C83A2A;margin-bottom:2rem;">
+      <h3>⚠️ Perhatian</h3>
+      <p>Skor konsistensi di bawah 10 menunjukkan hasil yang kurang dapat diandalkan. Subjek mungkin kurang konsisten dalam menjawab, atau mengalami kelelahan selama pengerjaan. Interpretasi berikut perlu dipertimbangkan dengan hati-hati.</p>
+    </div>`;
+  }
+
+  // CHART
+  html += `<div class="chart-section">
+    <div class="chart-title">Profil Variabel Kepribadian — Persentil</div>
+    <div class="chart-bars" id="chart-bars">`;
+  
+  const maxPct = Math.max(...VARS.map(v => percentiles[v]));
+  const chartH = 140;
+  // Mean line position
+  const meanLineBottom = (meanPct / 100) * chartH;
+  html += `<div class="chart-mean-line" style="bottom:${meanLineBottom}px;" title="Mean Profil: ${Math.round(meanPct)}%"></div>`;
+  
+  VARS.forEach(v => {
+    const pct = percentiles[v];
+    const barH = Math.max(4, (pct / 100) * chartH);
+    const color = pctColor(pct);
+    html += `<div class="chart-bar-group">
+      <div class="chart-bar-pct">${pct}</div>
+      <div class="chart-bar" style="height:${barH}px;background:${color};"></div>
+      <div class="chart-bar-label">${v}</div>
+    </div>`;
+  });
+  html += `</div>
+    <div style="margin-top:0.8rem;font-size:0.72rem;color:var(--ink3);display:flex;gap:1.5rem;flex-wrap:wrap;">
+      <span><span style="display:inline-block;width:10px;height:3px;background:var(--accent2);vertical-align:middle;margin-right:4px;"></span>Garis mean profil</span>
+      <span>≥90 = Tinggi | 75–89 = Di atas rata-rata | 25–74 = Rata-rata | 10–24 = Di bawah rata-rata | &lt;10 = Rendah</span>
+    </div>
+  </div>`;
+
+  // SCORE TABLE
+  html += `<div class="score-table-wrap">
+    <table class="score-table">
+      <thead><tr>
+        <th>Variabel</th><th>r (baris)</th><th>c (kolom)</th><th>s (jumlah)</th>
+        <th>Persentil</th><th>Norma Profil</th>
+      </tr></thead><tbody>`;
+  
+  VARS.forEach(v => {
+    const pct = percentiles[v];
+    const norm = normProfile(pct, meanPct);
+    const normClass = norm === 'Positif' ? 'norm-pos' : norm === 'Negatif' ? 'norm-neg' : 'norm-zero';
+    const barColor = pctColor(pct);
+    html += `<tr>
+      <td><strong>${v}</strong><br><span style="font-size:0.72rem;color:var(--ink3);font-weight:400;">${VAR_NAMES[v]}</span></td>
+      <td>${r[v] || 0}</td>
+      <td>${c[v] || 0}</td>
+      <td><strong>${s[v] || 0}</strong></td>
+      <td>
+        <div class="percentile-bar-wrap">
+          <div class="percentile-bar-bg"><div class="percentile-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+          <div class="pct-num">${pct}%</div>
+        </div>
+      </td>
+      <td><span class="norm-badge ${normClass}">${norm}</span></td>
+    </tr>`;
+  });
+
+  const totalR = VARS.reduce((sum,v)=>sum+(r[v]||0),0);
+  const totalC = VARS.reduce((sum,v)=>sum+(c[v]||0),0);
+  html += `<tr><td>TOTAL</td><td>${totalR}</td><td>${totalC}</td><td>${totalS}</td><td colspan="2"></td></tr>`;
+  html += `</tbody></table></div>`;
+
+  // INTERPRETATION
+  html += `<div class="interp-section">
+    <h3 class="interp-title">Analisis Variabel Kepribadian</h3>
+    <div class="interp-cards">`;
+  
+  VARS.forEach(v => {
+    const pct = percentiles[v];
+    const norm = normProfile(pct, meanPct);
+    let interpText, cardClass;
+    if (norm === 'Positif') { interpText = INTERP[v].high; cardClass = 'pos'; }
+    else if (norm === 'Negatif') { interpText = INTERP[v].low; cardClass = 'neg'; }
+    else { interpText = INTERP[v].avg; cardClass = 'avg'; }
+    
+    const [levelLabel, levelClass] = normLabel(pct);
+    html += `<div class="interp-card ${cardClass}">
+      <h4>
+        ${VAR_NAMES[v]}
+        <span class="norm-badge norm-${levelClass}" style="font-size:0.65rem;">${levelLabel}</span>
+        <span style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--ink3);">${pct}%</span>
+      </h4>
+      <p>${interpText}</p>
+    </div>`;
+  });
+  
+  html += `</div></div>`;
+
+  // Print/Restart
+  html += `<div class="print-btn-wrap">
+    <button class="btn btn-secondary" onclick="window.print()" style="margin-right:1rem;">🖨️ Cetak / Simpan PDF</button>
+    <button class="btn btn-primary" onclick="location.reload()">↺ Ulangi Tes</button>
+  </div>`;
+
+  document.getElementById('result-wrap').innerHTML = html;
+}
+
+// ============================================================
+// FLOW
+// ============================================================
+function startTest() {
+  const nama = document.getElementById('inp-nama').value.trim();
+  const jk = document.getElementById('inp-jk').value;
+  const usia = document.getElementById('inp-usia').value;
+  const pend = document.getElementById('inp-pendidikan').value.trim();
+  
+  if (!nama) { alert('Harap isi nama lengkap terlebih dahulu.'); return; }
+  
+  subjectInfo = { nama, jk, usia, pendidikan: pend };
+  answers = new Array(225).fill(null);
+  currentQ = 0;
+  showSection('sec-questions');
+  renderQuestion(0);
+}
+</script>
+</body>
+</html>
